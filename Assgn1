@@ -1,0 +1,10 @@
+--Q1
+-- INSERT into Companies VALUES(401, 'IBM','Technology', 100001.00, '2024-08-06')
+--select * from Companies;
+--INSERT into Companies VALUES(402, 'APPLE','Technology', 100005.00, '2024-08-07')
+--Q2
+--UPDATE Companies SET market_cap=100002.00 where company_id=402
+--select * from Companies;
+--Q3
+--DELETE FROM Companies WHERE company_id=1;
+--Q4
