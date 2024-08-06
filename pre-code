@@ -1,0 +1,30 @@
+-- COPY Investors(Investor_ID, Name, Age, Portfolio_Value, Contact_Details)
+-- FROM '/Users/Shared/IT_615_DBMS/LAB1/StocksDB/investors.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+-- COPY Companies(Company_ID, Name, Sector,	Market_Cap, Listing_Date)
+-- FROM '/Users/Shared/IT_615_DBMS/LAB1/StocksDB/companies.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+-- CREATE TABLE Stocks (
+-- Stock_ID SERIAL PRIMARY KEY,
+-- Company_ID INT REFERENCES Companies(Company_ID), Date DATE,
+-- Opening_Price NUMERIC(10, 2),
+-- Closing_Price NUMERIC(10, 2)
+-- );
+-- CREATE TABLE Transactions (
+-- Transaction_ID SERIAL PRIMARY KEY,
+-- Investor_ID INT REFERENCES Investors(Investor_ID), Stock_ID INT REFERENCES Stocks(Stock_ID),
+-- Date DATE,
+-- Quantity INT
+-- );
+-- CREATE TABLE Dividends (
+-- Dividend_ID SERIAL PRIMARY KEY,
+-- Company_ID INT REFERENCES Companies(Company_ID), Date DATE,
+-- Amount NUMERIC(15, 2),
+-- Frequency VARCHAR(50)
+-- );
+-- COPY Dividends(Dividend_ID,	Company_ID,	Date,	Amount, Frequency)
+-- FROM '/Users/Shared/IT_615_DBMS/LAB1/StocksDB/dividends.csv'
+-- DELIMITER ','
+-- CSV HEADER;
