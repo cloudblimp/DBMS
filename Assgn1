@@ -1,10 +1,68 @@
---Q1
--- INSERT into Companies VALUES(401, 'IBM','Technology', 100001.00, '2024-08-06')
---select * from Companies;
---INSERT into Companies VALUES(402, 'APPLE','Technology', 100005.00, '2024-08-07')
---Q2
---UPDATE Companies SET market_cap=100002.00 where company_id=402
---select * from Companies;
---Q3
---DELETE FROM Companies WHERE company_id=1;
---Q4
+1. Insert a new company into the Companies table.
+INSERT into Companies VALUES(401, 'IBM','Technology', 100001.00, '2024-08-06')
+INSERT into Companies VALUES(402, 'APPLE','Technology', 100005.00, '2024-08-07')
+
+2. Update the Market_Cap of a specific company.
+UPDATE Companies SET market_cap=101010101.00 WHERE company_id=1
+UPDATE Companies SET market_cap=101010102.00 WHERE company_id=401
+
+3. Delete a company from the Companies table.
+DELETE FROM Companies WHERE company_id=401
+
+4. Select companies in the 'Technology' sector.
+SELECT * FROM Companies WHERE sector='Technology';
+
+5. Select companies listed after 2010.
+SELECT * FROM Companies WHERE listing_date > '2010-12-31'
+// SELECT * FROM Companies WHERE listing_date > '2010-12-31' ORDER BY listing_date ASC
+
+6. Insert a new stock price entry.
+//INSERT INTO Stocks (stock_id, company_id, date, opening_price, closing_price) VALUES (500, 402, '2024-08-07', 100.11, 900.99);
+INSERT INTO Stocks VALUES (500, 402, '2024-08-07', 100.11, 900.99);
+
+7. Update the closing price of a stock.
+UPDATE Stocks SET closting_price=2000.71 WHERE stock_id=1
+
+8. Delete stock prices older than a specific date.
+//DELETE FROM Stocks WHERE date > '2022-12-31'
+DELETE FROM Stocks WHERE stock_id IN (SELECT Stock_ID FROM Stocks WHERE Date < '2023-01-01');
+
+9. Select all stocks with a closing price above 1000.
+SELECT * FROM STOCKS WHERE closing_price > 1000;
+
+10. Select stock prices for a specific company on a specific date.
+SELECT * FROM Stocks WHERE date='2023-06-24' and company_id=305
+
+11. Insert a new investor.
+//INSERT INTO investors (investor_id, name, age, portfolio_value, details) VALUES (401, 'Shashank Kumar', 22, 9999999.10, +9177177xxxxx);
+INSERT INTO investors VALUES (401, 'Shashank Kumar', 22, 9999999.10, 9177177);
+
+12. Update the portfolio value of an investor.
+UPDATE Investors SET portfolio_value=666666.20 WHERE investor_id=401;
+
+13. Delete an investor from the Investors table.
+DELETE from Investors WHERE investor_id=400;
+
+14. Select investors with a portfolio value above 1,000,000.
+SELECT * FROM Investors WHERE portfolio_value > 1000000
+
+15. Select investors older than 40 years.
+SELECT * FROM Investors WHERE age > 40
+
+16. Insert a new transaction.
+//INSERT INTO Transactions (transaction_id, investor_id, stock_id, date, quantity) VALUES (600, 600, 600, '2024-08-07', 555)
+INSERT INTO Transactions VALUES (600, 401, 500, '2024-08-07', 555)
+
+17. Update the quantity of stocks in a transaction.
+//UPDATE Transactions SET quantity=666 WHERE stock_id=200;
+UPDATE Transactions SET quantity=666 WHERE stock_id=200 AND transaction_id=315
+
+18. Delete transactions for a specific investor.
+DELETE FROM Transactions WHERE investor_id=385;
+
+19. Select transactions with a quantity above 100.
+SELECT * FROM Transactions WHERE quantity > 100;
+
+20. Select all transactions for a specific stock.
+// SELECT stock_id, COUNT(*) AS count FROM transactions GROUP BY stock_id HAVING COUNT(*) > 1; // 
+SELECT * FROM Transactions WHERE stock_id=161;
