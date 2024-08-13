@@ -1,0 +1,19 @@
+Q1. Find the average portfolio value for each age group in the Investors table
+SELECT age, AVG(Portfolio_Value) AS Avg_Portfolio_Value
+FROM Investors
+GROUP BY age;
+
+Q2. List the total number of transactions for each company, along with the company name.
+SELECT Companies.Name, Count(Transactions.Transaction_id) as total_transaction
+FROM Transactions
+JOIN Stocks ON Transactions.stock_id = Stocks.stock_id
+JOIN Companies ON Stocks.company_id = Companies.company_id
+GROUP BY Companies."name"
+
+Q3.Find the name of the company with the highest market cap.
+SELECT "name", market_cap
+FROM Companies
+ORDER BY market_cap DESC
+LIMIT 1;
+
+Q4. 
