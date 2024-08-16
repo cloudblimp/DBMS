@@ -64,3 +64,29 @@ FROM investors
 JOIN Transactions ON Investors.investor_id = Transactions.transaction_id
 JOIN Stocks ON Transactions.stock_id = Stocks.stock_id
 WHERE Stocks.company_id IN (SELECT company_id FROM Companies WHERE sector='Technology')
+
+Q11. Identify the top 5 companies by total dividends paid and list their most active investors (by transaction count), including the total dividends
+received by those investors.
+SELECT companies.name,
+       SUM(dividends.amount) AS total_dividend_paid,
+       COUNT(DISTINCT transactions.transaction_id) AS transaction_count
+FROM Companies 
+JOIN Dividends ON companies.company_id = dividends.company_id
+JOIN Stocks ON companies.company_id = stocks.company_id
+JOIN Transactions ON stocks.stock_id = transactions.stock_id
+GROUP BY companies.name
+ORDER BY transaction_count DESC
+LIMIT 5
+
+Q12. List investors who have made transactions in companies with a market cap above the overall average, where their transaction quantity is
+above the average transaction quantity in those companies.
+SELECT DISTINCT Investors.name
+FROM Investors
+JOIN Transactions ON Investors.Investor_ID = Transactions.Investor_ID
+JOIN Stocks ON Transactions.Stock_ID = Stocks.Stock_ID
+JOIN Companies ON Stocks.Company_ID = Companies.Company_ID
+WHERE Companies.market_cap > (SELECT AVG(market_cap) FROM Companies)
+AND Transactions.quantity > (SELECT AVG(quantity) FROM Transactions);
+
+Q13. Find the top 3 companies by market cap that have had the most transactions in the last year, including total transaction count and average
+transaction quantity.
