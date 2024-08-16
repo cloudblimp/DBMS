@@ -45,3 +45,17 @@ ORDER BY SUM(portfolio_value) DESC
 LIMIT 1
 
 Q8. List the company names that have more than 2 different stocks associated with them.
+SELECT "name"
+FROM Companies
+JOIN Stocks ON companies.Company_ID = stocks.Company_ID
+GROUP BY companies.name
+HAVING COUNT(DISTINCT stocks.Stock_ID) > 2
+
+Q9. Find the companies that have paid more than 3 dividends, along with the total dividend amount.
+SELECT "name", SUM(dividends.amount) AS total_dividend_amount
+FROM companies
+JOIN dividends ON companies.Company_ID = dividends.company_id
+GROUP BY companies.name
+HAVING COUNT(dividends.amount)>3
+
+Q10. 
