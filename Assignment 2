@@ -58,4 +58,9 @@ JOIN dividends ON companies.Company_ID = dividends.company_id
 GROUP BY companies.name
 HAVING COUNT(dividends.amount)>3
 
-Q10. 
+Q10. List the distinct names of investors who have transactions involving stocks from companies in the 'Technology' sector.
+SELECT DISTINCT "name"
+FROM investors
+JOIN Transactions ON Investors.investor_id = Transactions.transaction_id
+JOIN Stocks ON Transactions.stock_id = Stocks.stock_id
+WHERE Stocks.company_id IN (SELECT company_id FROM Companies WHERE sector='Technology')
