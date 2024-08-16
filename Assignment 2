@@ -16,4 +16,32 @@ FROM Companies
 ORDER BY market_cap DESC
 LIMIT 1;
 
-Q4. 
+Q4. List the names of investors who have made transactions for the stock with the highest closing price.
+SELECT "name", stocks.closing_price
+FROM Investors
+JOIN Transactions ON Investors.Investor_ID = Transactions.Investor_ID
+JOIN Stocks ON Transactions.stock_ID = stocks.stock_id
+WHERE stocks.closing_price = (SELECT MAX(closing_price) FROM stocks);
+
+Q5. List the company details for companies that have a market cap greater than the average market cap of all companies.
+SELECT *
+FROM Companies
+WHERE market_cap > (
+    SELECT AVG(market_cap)
+    FROM Companies
+);
+
+Q6. Find the name and market cap of the company that was listed most recently.
+SELECT "name", market_cap, listing_date
+FROM Companies
+ORDER BY listing_date DESC
+LIMIT 10
+
+Q7. Find the name of the investor with the largest total portfolio value, where the total is calculated by summing all portfolios with the same name.
+SELECT "name", portfolio_value
+FROM Investors
+GROUP BY Investor_ID
+ORDER BY SUM(portfolio_value) DESC
+LIMIT 1
+
+Q8. List the company names that have more than 2 different stocks associated with them.
