@@ -35,7 +35,7 @@ FROM '/Users/Shared/IT_615_DBMS/LAB1/StocksDB/companies.csv'
 DELIMITER ','
 CSV HEADER;
 
-COPY Stocks (Company_ID,	Date,	Opening_Price,	Closing_Price)
+COPY Stocks (Stock_ID, Company_ID, Date, Opening_Price, Closing_Price)
 FROM '/Users/Shared/IT_615_DBMS/LAB1/StocksDB/stocks.csv'
 DELIMITER ','
 CSV HEADER;
