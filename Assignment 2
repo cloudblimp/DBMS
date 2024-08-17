@@ -280,3 +280,4 @@ ORDER BY average_transaction_quantity DESC
 LIMIT 1;
 
 Q29. Create a VIEW that lists companies that have paid more than $10 million in dividends. Use this VIEW to list the details of these companies.
+
