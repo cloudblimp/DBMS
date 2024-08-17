@@ -169,3 +169,20 @@ SELECT slop.stock_id, slop.opening_price, slop.closing_price, c.name AS company_
 FROM StockWithLowestOpeningPrice slop
 JOIN Companies c ON slop.company_id = c.company_id;
 
+Q20. Create a VIEW to list stocks for a specific company based on its Company_ID. Query this VIEW to get the stocks for the specified company.
+CREATE VIEW StocksForCompany AS
+SELECT stock_id, company_id, opening_price, closing_price
+FROM Stocks
+WHERE company_id = 5
+
+SELECT * FROM StocksForCompany
+
+Q21. Calculate the total dividend paid by each company and sort the results in descending order.
+SELECT c.company_id, c.name AS company_name, SUM(d.amount) AS total_dividend
+FROM Dividends d
+JOIN Companies c ON d.company_id = c.company_id
+GROUP BY c.company_id, c.name
+ORDER BY total_dividend DESC;
+
+Q22. List the names of investors and their total portfolio value, which is calculated by summing all portfolio values for each investor.
+
