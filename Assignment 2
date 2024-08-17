@@ -158,8 +158,6 @@ SELECT * FROM STOCKS
 
 SELECT * FROM StocksClosingPrices;
 
-
-
 Q19. Create a VIEW to find the stock with the lowest opening price. After creating the VIEW, use it to get details of this stock,
 including its company name. 
 CREATE VIEW StockWithLowestOpeningPrice AS
