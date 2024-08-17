@@ -124,4 +124,26 @@ VALUES (402, 400, '2024-08-17',6666666.00, 9999999.00);
 
 SELECT * FROM AverageOpeningPrice;
 
-Q16.
+Q16. Create a VIEW for stocks that have a closing price above a certain threshold. Use this VIEW to get details of these stocks,
+including their company names.
+CREATE VIEW StocksAboveThreshold AS
+SELECT s.stock_id, s.company_id, s.closing_price
+FROM Stocks s
+WHERE s.closing_price > 1000.00
+
+SELECT sat.stock_id, sat.closing_price, c.name AS company_name
+FROM StocksAboveThreshold sat
+JOIN Companies c ON sat.company_id = c.company_id
+ORDER BY closing_price ASC
+
+Q17. Create a VIEW that shows all stocks along with their company names. Query this VIEW to list all stocks and their company names.
+CREATE VIEW StocksWithCompanyNames AS
+SELECT s.stock_id, s.company_id, s.opening_price, s.closing_price, c.name AS company_name
+FROM Stocks s
+JOIN Companies c ON s.company_id = c.company_id;
+
+SELECT stock_id, opening_price, closing_price, company_name
+FROM StocksWithCompanyNames;
+
+Q18. 
+
