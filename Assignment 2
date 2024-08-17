@@ -222,13 +222,10 @@ Q24. List the names of investors who have invested in at least one stock from a 
 
 SELECT DISTINCT i.name AS investor_name
 FROM Investors i
-WHERE EXISTS (
-    SELECT 1
-    FROM Transactions t
-    JOIN Stocks s ON t.stock_id = s.stock_id
-    JOIN Companies c ON s.company_id = c.company_id
-    WHERE t.investor_id = i.investor_id AND c.market_cap > 500000000
-)
+WHERE EXISTS (SELECT 1 FROM Transactions t
+JOIN Stocks s ON t.stock_id = s.stock_id
+JOIN Companies c ON s.company_id = c.company_id
+WHERE t.investor_id = i.investor_id AND c.market_cap > 500000000)
 
 Q25. Find pairs of companies where both companies are in the 'Technology' sector and have similar market caps (difference less than $100 million).
 
