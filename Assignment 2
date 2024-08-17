@@ -185,4 +185,28 @@ GROUP BY c.company_id, c.name
 ORDER BY total_dividend DESC;
 
 Q22. List the names of investors and their total portfolio value, which is calculated by summing all portfolio values for each investor.
+SELECT "name" AS investor_name, SUM(investors.portfolio_value) AS total_portfolio_value
+FROM Investors
+GROUP BY Investors.name
+ORDER BY total_portfolio_value
 
+Q23. Find all transactions for stocks in the 'Healthcare' and 'Finance' sectors and list the stock name, company name, and transaction date.
+SELECT Transactions.transaction_id, Stocks.stock_id, Companies.sector AS sector_name,
+Companies.name AS company_name, Transactions.date AS transaction_date
+FROM Transactions
+JOIN Stocks ON Transactions.stock_id = Stocks.stock_id
+JOIN Companies ON Stocks.company_id = Companies.company_id
+WHERE Companies.sector IN ('Healthcare', 'Finance')
+
+Q24. List the names of investors who have invested in at least one stock from a company with a market cap greater than $500 million.
+SELECT DISTINCT i.name AS investor_name
+FROM Investors i
+WHERE EXISTS (
+    SELECT 1
+    FROM Transactions t
+    JOIN Stocks s ON t.stock_id = s.stock_id
+    JOIN Companies c ON s.company_id = c.company_id
+    WHERE t.investor_id = i.investor_id AND c.market_cap > 500000000
+)
+
+Q25. Find pairs of companies where both companies are in the 'Technology' sector and have similar market caps (difference less than $100 million).
