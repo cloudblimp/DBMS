@@ -281,3 +281,25 @@ LIMIT 1;
 
 Q29. Create a VIEW that lists companies that have paid more than $10 million in dividends. Use this VIEW to list the details of these companies.
 
+CREATE VIEW CompaniesWithHighDividends AS
+SELECT c.company_id, c.name AS company_name, SUM(d.amount) AS total_dividends
+FROM Companies c
+JOIN Dividends d ON c.company_id = d.company_id
+GROUP BY c.company_id, c.name
+HAVING SUM(d.amount) > 10000000
+
+SELECT * FROM CompaniesWithHighDividends
+
+Q30.  Create a VIEW that lists all stocks along with their total transaction quantities. Use this VIEW to find the top 5 stocks with
+the highest transaction quantities.
+
+CREATE VIEW StockWithHighestTransactionQuantities AS
+SELECT s.stock_id, SUM(t.quantity) AS total_transaction_quantity
+FROM Stocks s
+JOIN Transactions t ON s.stock_id = t.stock_id
+GROUP BY s.stock_id
+
+SELECT *
+FROM StockWithHighestTransactionQuantities
+ORDER BY total_transaction_quantity DESC
+LIMIT 5
