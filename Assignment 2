@@ -68,8 +68,8 @@ WHERE Stocks.company_id IN (SELECT company_id FROM Companies WHERE sector='Techn
 Q11. Identify the top 5 companies by total dividends paid and list their most active investors (by transaction count), including the total dividends
 received by those investors.
 SELECT companies.name,
-       SUM(dividends.amount) AS total_dividend_paid,
-       COUNT(DISTINCT transactions.transaction_id) AS transaction_count
+SUM(dividends.amount) AS total_dividend_paid,
+COUNT(DISTINCT transactions.transaction_id) AS transaction_count
 FROM Companies 
 JOIN Dividends ON companies.company_id = dividends.company_id
 JOIN Stocks ON companies.company_id = stocks.company_id
@@ -90,3 +90,37 @@ AND Transactions.quantity > (SELECT AVG(quantity) FROM Transactions);
 
 Q13. Find the top 3 companies by market cap that have had the most transactions in the last year, including total transaction count and average
 transaction quantity.
+SELECT Companies.name, Companies.market_cap,
+COUNT(DISTINCT Transactions.transaction_id) AS transaction_count,
+AVG(Transactions.quantity) AS avg_quantity
+FROM Transactions
+JOIN Stocks ON Transactions.stock_id = Stocks.stock_id
+JOIN Companies ON Stocks.company_id = Companies.company_id
+WHERE Transactions.date > '2022-12-31'
+GROUP BY Companies.name, Companies.market_cap 
+ORDER BY transaction_count DESC
+LIMIT 3;
+
+Q14. Create a VIEW for the stock with the highest closing price, then use this VIEW to get details of the stock, including its company name.
+-- CREATE VIEW HighestClosingStock AS
+-- SELECT stocks.stock_id, stocks.company_id, stocks.closing_price
+-- FROM Stocks
+-- WHERE stocks.closing_price = (SELECT MAX(closing_price) FROM Stocks);
+SELECT hcs.stock_id, hcs.closing_price, c.name AS company_name
+FROM HighestClosingStock hcs
+JOIN Companies c ON hcs.company_id = c.company_id;
+
+Q15. Create a VIEW to calculate the average opening price of all stocks. After creating the VIEW, insert a new record into the Stocks table 
+and verify if the VIEW updates correctly.
+CREATE VIEW AverageOpeningPrice AS
+SELECT AVG(opening_price) AS avg_opening_price
+FROM Stocks;
+
+SELECT * FROM AverageOpeningPrice;
+
+INSERT INTO Stocks (stock_id, company_id, date, opening_price, closing_price)
+VALUES (402, 400, '2024-08-17',6666666.00, 9999999.00);
+
+SELECT * FROM AverageOpeningPrice;
+
+Q16.
