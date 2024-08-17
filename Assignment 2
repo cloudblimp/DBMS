@@ -1,9 +1,11 @@
 Q1. Find the average portfolio value for each age group in the Investors table
+
 SELECT age, AVG(Portfolio_Value) AS Avg_Portfolio_Value
 FROM Investors
 GROUP BY age;
 
 Q2. List the total number of transactions for each company, along with the company name.
+
 SELECT Companies.Name, Count(Transactions.Transaction_id) as total_transaction
 FROM Transactions
 JOIN Stocks ON Transactions.stock_id = Stocks.stock_id
@@ -11,12 +13,14 @@ JOIN Companies ON Stocks.company_id = Companies.company_id
 GROUP BY Companies."name"
 
 Q3.Find the name of the company with the highest market cap.
+
 SELECT "name", market_cap
 FROM Companies
 ORDER BY market_cap DESC
 LIMIT 1;
 
 Q4. List the names of investors who have made transactions for the stock with the highest closing price.
+
 SELECT "name", stocks.closing_price
 FROM Investors
 JOIN Transactions ON Investors.Investor_ID = Transactions.Investor_ID
@@ -24,20 +28,20 @@ JOIN Stocks ON Transactions.stock_ID = stocks.stock_id
 WHERE stocks.closing_price = (SELECT MAX(closing_price) FROM stocks);
 
 Q5. List the company details for companies that have a market cap greater than the average market cap of all companies.
+
 SELECT *
 FROM Companies
-WHERE market_cap > (
-    SELECT AVG(market_cap)
-    FROM Companies
-);
+WHERE market_cap > (SELECT AVG(market_cap) FROM Companies)
 
 Q6. Find the name and market cap of the company that was listed most recently.
+
 SELECT "name", market_cap, listing_date
 FROM Companies
 ORDER BY listing_date DESC
 LIMIT 10
 
 Q7. Find the name of the investor with the largest total portfolio value, where the total is calculated by summing all portfolios with the same name.
+
 SELECT "name", portfolio_value
 FROM Investors
 GROUP BY Investor_ID
@@ -45,6 +49,7 @@ ORDER BY SUM(portfolio_value) DESC
 LIMIT 1
 
 Q8. List the company names that have more than 2 different stocks associated with them.
+
 SELECT "name"
 FROM Companies
 JOIN Stocks ON companies.Company_ID = stocks.Company_ID
@@ -52,6 +57,7 @@ GROUP BY companies.name
 HAVING COUNT(DISTINCT stocks.Stock_ID) > 2
 
 Q9. Find the companies that have paid more than 3 dividends, along with the total dividend amount.
+
 SELECT "name", SUM(dividends.amount) AS total_dividend_amount
 FROM companies
 JOIN dividends ON companies.Company_ID = dividends.company_id
@@ -59,6 +65,7 @@ GROUP BY companies.name
 HAVING COUNT(dividends.amount)>3
 
 Q10. List the distinct names of investors who have transactions involving stocks from companies in the 'Technology' sector.
+
 SELECT DISTINCT "name"
 FROM investors
 JOIN Transactions ON Investors.investor_id = Transactions.transaction_id
@@ -67,6 +74,7 @@ WHERE Stocks.company_id IN (SELECT company_id FROM Companies WHERE sector='Techn
 
 Q11. Identify the top 5 companies by total dividends paid and list their most active investors (by transaction count), including the total dividends
 received by those investors.
+
 SELECT companies.name,
 SUM(dividends.amount) AS total_dividend_paid,
 COUNT(DISTINCT transactions.transaction_id) AS transaction_count
@@ -80,6 +88,7 @@ LIMIT 5
 
 Q12. List investors who have made transactions in companies with a market cap above the overall average, where their transaction quantity is
 above the average transaction quantity in those companies.
+
 SELECT DISTINCT Investors.name
 FROM Investors
 JOIN Transactions ON Investors.Investor_ID = Transactions.Investor_ID
@@ -90,6 +99,7 @@ AND Transactions.quantity > (SELECT AVG(quantity) FROM Transactions);
 
 Q13. Find the top 3 companies by market cap that have had the most transactions in the last year, including total transaction count and average
 transaction quantity.
+
 SELECT Companies.name, Companies.market_cap,
 COUNT(DISTINCT Transactions.transaction_id) AS transaction_count,
 AVG(Transactions.quantity) AS avg_quantity
@@ -102,6 +112,7 @@ ORDER BY transaction_count DESC
 LIMIT 3;
 
 Q14. Create a VIEW for the stock with the highest closing price, then use this VIEW to get details of the stock, including its company name.
+
 CREATE VIEW HighestClosingStock AS
 SELECT stocks.stock_id, stocks.company_id, stocks.closing_price
 FROM Stocks
@@ -113,6 +124,7 @@ JOIN Companies c ON hcs.company_id = c.company_id;
 
 Q15. Create a VIEW to calculate the average opening price of all stocks. After creating the VIEW, insert a new record into the Stocks table 
 and verify if the VIEW updates correctly.
+
 CREATE VIEW AverageOpeningPrice AS
 SELECT AVG(opening_price) AS avg_opening_price
 FROM Stocks;
@@ -126,6 +138,7 @@ SELECT * FROM AverageOpeningPrice;
 
 Q16. Create a VIEW for stocks that have a closing price above a certain threshold. Use this VIEW to get details of these stocks,
 including their company names.
+
 CREATE VIEW StocksAboveThreshold AS
 SELECT s.stock_id, s.company_id, s.closing_price
 FROM Stocks s
@@ -137,6 +150,7 @@ JOIN Companies c ON sat.company_id = c.company_id
 ORDER BY closing_price ASC
 
 Q17. Create a VIEW that shows all stocks along with their company names. Query this VIEW to list all stocks and their company names.
+
 CREATE VIEW StocksWithCompanyNames AS
 SELECT s.stock_id, s.company_id, s.opening_price, s.closing_price, c.name AS company_name
 FROM Stocks s
@@ -147,6 +161,7 @@ FROM StocksWithCompanyNames;
 
 Q18. Create a VIEW for all stocks and their closing prices. Insert a new record into the VIEW and verify if the new record is reflected in
 the original Stocks table.
+
 CREATE VIEW StocksClosingPrices AS
 SELECT stock_id, closing_price
 FROM Stocks;
@@ -160,6 +175,7 @@ SELECT * FROM StocksClosingPrices;
 
 Q19. Create a VIEW to find the stock with the lowest opening price. After creating the VIEW, use it to get details of this stock,
 including its company name. 
+
 CREATE VIEW StockWithLowestOpeningPrice AS
 SELECT s.stock_id, s.company_id, s.opening_price, s.closing_price
 FROM Stocks s
@@ -170,6 +186,7 @@ FROM StockWithLowestOpeningPrice slop
 JOIN Companies c ON slop.company_id = c.company_id;
 
 Q20. Create a VIEW to list stocks for a specific company based on its Company_ID. Query this VIEW to get the stocks for the specified company.
+
 CREATE VIEW StocksForCompany AS
 SELECT stock_id, company_id, opening_price, closing_price
 FROM Stocks
@@ -178,6 +195,7 @@ WHERE company_id = 5
 SELECT * FROM StocksForCompany
 
 Q21. Calculate the total dividend paid by each company and sort the results in descending order.
+
 SELECT c.company_id, c.name AS company_name, SUM(d.amount) AS total_dividend
 FROM Dividends d
 JOIN Companies c ON d.company_id = c.company_id
@@ -185,12 +203,14 @@ GROUP BY c.company_id, c.name
 ORDER BY total_dividend DESC;
 
 Q22. List the names of investors and their total portfolio value, which is calculated by summing all portfolio values for each investor.
+
 SELECT "name" AS investor_name, SUM(investors.portfolio_value) AS total_portfolio_value
 FROM Investors
 GROUP BY Investors.name
 ORDER BY total_portfolio_value
 
 Q23. Find all transactions for stocks in the 'Healthcare' and 'Finance' sectors and list the stock name, company name, and transaction date.
+
 SELECT Transactions.transaction_id, Stocks.stock_id, Companies.sector AS sector_name,
 Companies.name AS company_name, Transactions.date AS transaction_date
 FROM Transactions
@@ -199,6 +219,7 @@ JOIN Companies ON Stocks.company_id = Companies.company_id
 WHERE Companies.sector IN ('Healthcare', 'Finance')
 
 Q24. List the names of investors who have invested in at least one stock from a company with a market cap greater than $500 million.
+
 SELECT DISTINCT i.name AS investor_name
 FROM Investors i
 WHERE EXISTS (
@@ -210,3 +231,52 @@ WHERE EXISTS (
 )
 
 Q25. Find pairs of companies where both companies are in the 'Technology' sector and have similar market caps (difference less than $100 million).
+
+SELECT c1.name AS company1, c2.name AS company2
+FROM companies c1 JOIN companies c2
+ON c1.sector = 'Technology' AND c2.sector = 'Technology' AND c1.name < c2.name
+AND ABS(c1.market_cap - c2.market_cap) < 100000000
+
+Q26. Create a VIEW that lists all investors and their total portfolio value. Use this VIEW to find investors with a total portfolio 
+value above $1 million.
+
+CREATE VIEW investor_portfolio_values AS
+SELECT name, SUM(portfolio_value) AS total_portfolio_value
+FROM investors
+GROUP BY name;
+
+SELECT name, total_portfolio_value
+FROM investor_portfolio_values
+WHERE total_portfolio_value > 1000000;
+
+Q27. Create a VIEW that shows companies with more than 5 stocks listed. Use this VIEW to get the names of these companies.
+
+CREATE VIEW CompaniesWithMoreThan5Stocks AS
+SELECT c.company_id, c.name AS company_name, COUNT(s.stock_id) AS stock_count
+FROM Companies c
+JOIN Stocks s ON c.company_id = s.company_id
+GROUP BY c.company_id, c.name
+HAVING COUNT(s.stock_id) > 5;
+
+SELECT company_name
+FROM CompaniesWithMoreThan5Stocks;
+
+Q28. Create a VIEW that summarizes the total transaction count and average transaction quantity for each company. Use this VIEW to find the company
+with the highest average transaction quantity.
+
+CREATE VIEW CompanyTransactionSummary AS
+SELECT c.company_id,c.name AS company_name,
+COUNT(t.transaction_id) AS total_transaction_count,
+AVG(t.quantity) AS average_transaction_quantity
+FROM Companies c
+JOIN Stocks s ON c.company_id = s.company_id
+LEFT JOIN Transactions t ON s.stock_id = t.stock_id
+GROUP BY c.company_id, c.name;
+
+SELECT company_name, average_transaction_quantity
+FROM CompanyTransactionSummary
+WHERE average_transaction_quantity IS NOT NULL
+ORDER BY average_transaction_quantity DESC
+LIMIT 1;
+
+Q29. Create a VIEW that lists companies that have paid more than $10 million in dividends. Use this VIEW to list the details of these companies.
