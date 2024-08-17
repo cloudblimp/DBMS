@@ -102,10 +102,11 @@ ORDER BY transaction_count DESC
 LIMIT 3;
 
 Q14. Create a VIEW for the stock with the highest closing price, then use this VIEW to get details of the stock, including its company name.
--- CREATE VIEW HighestClosingStock AS
--- SELECT stocks.stock_id, stocks.company_id, stocks.closing_price
--- FROM Stocks
--- WHERE stocks.closing_price = (SELECT MAX(closing_price) FROM Stocks);
+CREATE VIEW HighestClosingStock AS
+SELECT stocks.stock_id, stocks.company_id, stocks.closing_price
+FROM Stocks
+WHERE stocks.closing_price = (SELECT MAX(closing_price) FROM Stocks);
+
 SELECT hcs.stock_id, hcs.closing_price, c.name AS company_name
 FROM HighestClosingStock hcs
 JOIN Companies c ON hcs.company_id = c.company_id;
