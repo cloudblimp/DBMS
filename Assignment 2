@@ -145,5 +145,29 @@ JOIN Companies c ON s.company_id = c.company_id;
 SELECT stock_id, opening_price, closing_price, company_name
 FROM StocksWithCompanyNames;
 
-Q18. 
+Q18. Create a VIEW for all stocks and their closing prices. Insert a new record into the VIEW and verify if the new record is reflected in
+the original Stocks table.
+CREATE VIEW StocksClosingPrices AS
+SELECT stock_id, closing_price
+FROM Stocks;
+
+INSERT INTO Stocks (stock_id, company_id, date, opening_price, closing_price)
+VALUES (404, 400, '2024-08-17', 10000.00, 12000.00);
+
+SELECT * FROM STOCKS
+
+SELECT * FROM StocksClosingPrices;
+
+
+
+Q19. Create a VIEW to find the stock with the lowest opening price. After creating the VIEW, use it to get details of this stock,
+including its company name. 
+CREATE VIEW StockWithLowestOpeningPrice AS
+SELECT s.stock_id, s.company_id, s.opening_price, s.closing_price
+FROM Stocks s
+WHERE s.opening_price = (SELECT MIN(opening_price) FROM Stocks);
+
+SELECT slop.stock_id, slop.opening_price, slop.closing_price, c.name AS company_name
+FROM StockWithLowestOpeningPrice slop
+JOIN Companies c ON slop.company_id = c.company_id;
 
